@@ -1,0 +1,18 @@
+# Environment & Secrets
+.ENV
+.env
+*.env
+슈파베이스 암호.txt
+
+# Local Config & Agents
+.agents/
+.idea/
+.vscode/
+
+# OS / System Junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log

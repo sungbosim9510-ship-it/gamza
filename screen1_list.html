@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>媛먯옄(Gamza) - 以묎퀬嫄곕옒 ?곹뭹 紐⑸줉 [?붾㈃ 1]</title>
+  <style>
+    :root {
+      --primary-brown: #8D5B4C;
+      --primary-hover: #75473A;
+      --light-gold: #FFF4C2;
+      --bg-color: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --text-main: #332219;
+      --text-sub: #7A6B63;
+      --border-color: #E8DFD7;
+      --shadow-color: rgba(141, 91, 76, 0.1);
+      --shadow-hover: rgba(141, 91, 76, 0.18);
+      
+      /* Point Accent Yellow */
+      --point-yellow: #FFC800;
+      --point-yellow-hover: #E6B400;
+      --point-yellow-soft: #FFF4C2;
+      --point-yellow-border: #FFD633;
+      --text-on-yellow: #332219;
+
+      /* ?먮ℓ ?곹깭 ?됱긽 */
+      --badge-selling: #2E7D32;
+      --badge-reserved: #EF6C00;
+      --badge-completed: #757575;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 60px;
+    }
+
+    /* 1. Header (?ㅻ뜑) */
+    header.main-header {
+      width: 100%;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #FFD54F, #FFB300);
+      border-radius: 50% 40% 50% 45%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(255,179,0,0.4);
+      transform: rotate(-10deg);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--primary-brown);
+      letter-spacing: -0.5px;
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 16px 10px 42px;
+      border: 2px solid var(--border-color);
+      border-radius: 24px;
+      font-size: 0.95rem;
+      background-color: #FCFBF9;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--point-yellow-hover);
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      width: 18px;
+      height: 18px;
+      fill: var(--text-sub);
+      pointer-events: none;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-write {
+      background-color: var(--point-yellow);
+      color: var(--text-on-yellow);
+      font-weight: 800;
+      box-shadow: 0 3px 10px rgba(255, 200, 0, 0.4);
+    }
+
+    .btn-write:hover {
+      background-color: var(--point-yellow-hover);
+      color: var(--text-on-yellow);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 200, 0, 0.5);
+    }
+
+    .btn-login {
+      background-color: var(--point-yellow-soft);
+      color: var(--text-main);
+      border: 1px solid var(--point-yellow-border);
+    }
+
+    .btn-login:hover {
+      background-color: #FFE680;
+      transform: translateY(-1px);
+    }
+
+    /* Main Content Container */
+    main.container {
+      width: 100%;
+      max-width: 1100px;
+      padding: 24px 20px;
+    }
+
+    /* 2. Category Filter Bar (移댄뀒怨좊━ ?꾪꽣) */
+    .category-section {
+      margin-bottom: 20px;
+    }
+
+    .category-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .category-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .category-bar::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .category-btn {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background-color: #FFFFFF;
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .category-btn:hover {
+      background-color: var(--point-yellow-soft);
+      color: var(--text-main);
+      border-color: var(--point-yellow-border);
+    }
+
+    .category-btn.active {
+      background-color: var(--point-yellow);
+      color: var(--text-on-yellow);
+      border-color: var(--point-yellow-hover);
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(255, 200, 0, 0.35);
+    }
+
+    /* 3. Filter Options (?꾪꽣 ?듭뀡 諛? */
+    .filter-options-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .total-count {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .total-count span {
+      color: #B56C00;
+      background-color: var(--point-yellow-soft);
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle-container input[type="checkbox"] {
+      display: none;
+    }
+
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 6px;
+      background-color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-container input[type="checkbox"]:checked + .custom-checkbox {
+      background-color: var(--point-yellow);
+      border-color: var(--point-yellow-hover);
+    }
+
+    .custom-checkbox::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: solid #332219;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      display: none;
+      margin-bottom: 2px;
+    }
+
+    .toggle-container input[type="checkbox"]:checked + .custom-checkbox::after {
+      display: block;
+    }
+
+    .toggle-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* 4. Product Card Grid (?곹뭹 移대뱶 洹몃━?? */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px var(--shadow-hover);
+    }
+
+    .card-img-wrapper {
+      width: 100%;
+      height: 200px;
+      background-color: #F5F0EB;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .card-img {
+      transform: scale(1.04);
+    }
+
+    /* Status Badge */
+    .status-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .badge-selling {
+      background-color: var(--badge-selling);
+    }
+
+    .badge-reserved {
+      background-color: var(--badge-reserved);
+    }
+
+    .badge-completed {
+      background-color: var(--badge-completed);
+    }
+
+    .card-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.4;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-meta {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-brown);
+    }
+
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px dashed var(--border-color);
+      color: var(--text-sub);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(51, 34, 25, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--card-bg);
+      width: 90%;
+      max-width: 520px;
+      max-height: 90vh;
+      border-radius: 20px;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header-img {
+      width: 100%;
+      height: 240px;
+      background-color: #F5F0EB;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.85);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      transition: background 0.2s;
+      z-index: 10;
+    }
+
+    .modal-close-btn:hover {
+      background: #FFFFFF;
+    }
+
+    .modal-body {
+      padding: 20px 24px;
+    }
+
+    .modal-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .modal-category-tag {
+      font-size: 0.8rem;
+      background: var(--light-gold);
+      color: var(--primary-brown);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .modal-meta {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-price {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-brown);
+      margin-bottom: 16px;
+    }
+
+    .modal-desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      background: var(--bg-color);
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+
+    .modal-footer-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-footer-btns .btn {
+      flex: 1;
+      justify-content: center;
+      padding: 12px;
+      font-size: 0.95rem;
+    }
+
+    /* Write trigger modal styles */
+    .write-modal-desc {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      margin: 16px 0 24px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .header-content {
+        flex-wrap: wrap;
+      }
+      .search-bar {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 6px;
+      }
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
+      }
+      .card-img-wrapper {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Header (?ㅻ뜑) -->
+  <header class="main-header">
+    <div class="header-content">
+      <!-- '媛먯옄' 濡쒓퀬 -->
+      <a href="#" class="logo-container" id="btnLogo">
+        <div class="logo-icon">
+          <!-- 媛먯옄 SVG Icon -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F4E8C1" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C6.5 2 3 6.5 3 12c0 5.5 4.5 10 10 10s8-3.5 8-8c0-6-4.5-12-9-12z"/>
+            <circle cx="9" cy="9" r="1" fill="#F4E8C1"/>
+            <circle cx="15" cy="13" r="1" fill="#F4E8C1"/>
+            <circle cx="10" cy="16" r="1" fill="#F4E8C1"/>
+          </svg>
+        </div>
+        <span class="logo-text">媛먯옄</span>
+      </a>
+
+      <!-- 寃?됱갹 (?곹뭹紐?吏??寃??湲곕뒫 UI) -->
+      <div class="search-bar">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="?곹뭹紐??먮뒗 吏??쓣 寃?됲빐蹂댁꽭??>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+        <!-- [湲?곌린] 踰꾪듉 -->
+        <button type="button" class="btn btn-write" id="btnWriteTrigger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          湲?곌린
+        </button>
+        <!-- [濡쒓렇?? 踰꾪듉 -->
+        <button type="button" class="btn btn-login" id="btnLogin">濡쒓렇??/button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    
+    <!-- 2. Category Filter Bar (移댄뀒怨좊━ ?꾪꽣) -->
+    <section class="category-section">
+      <div class="category-bar" id="categoryBar">
+        <button class="category-btn active" data-category="?꾩껜">?꾩껜</button>
+        <button class="category-btn" data-category="?붿???湲곌린">?붿???湲곌린</button>
+        <button class="category-btn" data-category="媛援??명뀒由ъ뼱">媛援??명뀒由ъ뼱</button>
+        <button class="category-btn" data-category="?섎쪟">?섎쪟</button>
+        <button class="category-btn" data-category="?앺솢媛??>?앺솢媛??/button>
+        <button class="category-btn" data-category="?꾩꽌/?곗폆">?꾩꽌/?곗폆</button>
+        <button class="category-btn" data-category="湲고?">湲고?</button>
+      </div>
+    </section>
+
+    <!-- 3. Filter Options (?꾪꽣 ?듭뀡 諛? -->
+    <section class="filter-options-bar">
+      <div class="total-count">
+        珥?<span id="productCount">0</span>媛쒖쓽 媛먯옄 ?곹뭹
+      </div>
+      <label class="toggle-container">
+        <input type="checkbox" id="availableOnlyToggle">
+        <div class="custom-checkbox"></div>
+        <span class="toggle-label">嫄곕옒 媛?λ쭔 蹂닿린</span>
+      </label>
+    </section>
+
+    <!-- 4. Product Card Grid (?곹뭹 移대뱶 洹몃━?? -->
+    <section class="product-grid" id="productGrid">
+      <!-- JS濡?Dynamic Rendering -->
+    </section>
+  </main>
+
+  <!-- Product Detail Modal (?곹뭹 ?곸꽭 紐⑤떖) -->
+  <div class="modal-overlay" id="productDetailModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="btnCloseDetailModal">&times;</button>
+      <div class="modal-header-img" id="modalImgContainer">
+        <!-- SVG Image Rendered Dynamic -->
+      </div>
+      <div class="modal-body">
+        <div class="modal-badge-row">
+          <span class="status-badge" id="modalStatusBadge">?먮ℓ以?/span>
+          <span class="modal-category-tag" id="modalCategory">?붿???湲곌린</span>
+        </div>
+        <h2 class="modal-title" id="modalTitle">?곹뭹紐?/h2>
+        <div class="modal-meta" id="modalMeta">?쒖슱??留덊룷援?쨌 10遺???/div>
+        <div class="modal-price" id="modalPrice">0??/div>
+        <div class="modal-desc" id="modalDesc">?곹뭹 ?ㅻ챸???ㅼ뼱媛??怨듦컙?낅땲??</div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn btn-login" id="btnWish">??李쒗븯湲?/button>
+          <button type="button" class="btn btn-write" id="btnChat">梨꾪똿?섍린</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Write Trigger Modal / Event Notification (湲?곌린 紐⑤떖) -->
+  <div class="modal-overlay" id="writeModal">
+    <div class="modal-card" style="padding: 28px; text-align: center;">
+      <button class="modal-close-btn" id="btnCloseWriteModal">&times;</button>
+      <div style="font-size: 2.5rem; margin-bottom: 12px;">?쪛?랃툘</div>
+      <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--primary-brown);">?곹뭹 ?깅줉 [?붾㈃ 3] ?대룞</h2>
+      <p class="write-modal-desc">
+        ?덈줈??媛먯옄 ?곹뭹???깅줉?섏떆寃좎뒿?덇퉴?<br>湲?곌린 ?섏씠吏(screen3_write.html)濡??대룞?섍굅??紐⑤떖 ?대깽?몃? ?ㅽ뻾?⑸땲??
+      </p>
+      <div class="modal-footer-btns">
+        <button type="button" class="btn btn-login" id="btnCancelWrite">痍⑥냼</button>
+        <button type="button" class="btn btn-write" id="btnGoWrite">?깅줉?섎윭 媛湲?/button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Snippet -->
+  <script>
+    // 6媛쒖쓽 媛吏??곹뭹 ?곗씠???덉떆
+    const mockProducts = [
+      {
+        id: 1,
+        title: "?꾩씠?⑤뱶 ?꾨줈 11?몄튂 3?몃? M1 Wi-Fi 128GB",
+        category: "?붿???湲곌린",
+        location: "?쒖슱??留덊룷援??곕궓??,
+        time: "10遺???,
+        price: 750000,
+        status: "?먮ℓ以?, // ?먮ℓ以? ?덉빟以? 嫄곕옒?꾨즺
+        description: "M1 ?꾩씠?⑤뱶 ?꾨줈 11?몄튂?낅땲?? ?ㅼ궗???곴퀬 耳?댁뒪瑜???떆 ?쇱썙?⑥꽌 ?멸? 留ㅼ슦 源⑤걮?⑸땲??\n?諛뺤뒪 援ъ꽦?대ŉ ?꾨쫫 遺숈뼱?덉뒿?덈떎. ?곕궓??吏곴굅???좏샇?⑸땲??",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>`
+      },
+      {
+        id: 2,
+        title: "?먮ぉ 媛먯꽦 2?몄슜 ?먰삎 ?앺긽 ?명듃 (?섏옄 2媛??ы븿)",
+        category: "媛援??명뀒由ъ뼱",
+        location: "?쒖슱???쒖큹援?諛⑸같??,
+        time: "45遺???,
+        price: 120000,
+        status: "?덉빟以?,
+        description: "?곕쑜???먮굦???댁텛???먮ぉ ?먰삎 ?뚯씠釉붿엯?덈떎.\n?댁궗濡??명빐 湲됰ℓ?⑸땲?? ?섏옄 2媛쒕룄 ?④퍡 ?쒕━???⑸떖濡?媛?멸??붿빞 ?⑸땲??",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><path d="M3 10h18M5 10v10M19 10v10M8 10V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/></svg>`
+      },
+      {
+        id: 3,
+        title: "?뚰?怨좊땲???꾨━??吏묒뾽 ?먯폆 (L?ъ씠利?",
+        category: "?섎쪟",
+        location: "?쒖슱??媛뺣궓援???궪??,
+        time: "2?쒓컙 ??,
+        price: 85000,
+        status: "?먮ℓ以?,
+        description: "?곹깭 A湲??뚰?怨좊땲??蹂댁븘 ?꾨━??吏묒뾽 ?먯폆?낅땲??\n?묐뀈??援щℓ ??紐?踰????낆뼱???ㅼ뿼?대굹 蹂댄? ?놁뒿?덈떎. ?쒕씪?댄겢由щ떇 ?꾨즺!",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>`
+      },
+      {
+        id: 4,
+        title: "諛쒕??????좎뒪??K05B 釉붾옓 (?덉긽?덇툒)",
+        category: "?앺솢媛??,
+        location: "?쒖슱???≫뙆援??좎떎??,
+        time: "5?쒓컙 ??,
+        price: 160000,
+        status: "嫄곕옒?꾨즺",
+        description: "?좊Ъ諛쏄퀬 3??誘몃쭔 ?ъ슜??諛쒕??????좎뒪??釉붾옓?낅땲??\n?대? 泥?냼 源붾걫?섍쾶 ?꾨즺?덇퀬 諛뺤뒪? 5cc 而?紐⑤몢 ?ㅼ뼱?덉뒿?덈떎.",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M6 19v2M18 19v2M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M6 12h12"/></svg>`
+      },
+      {
+        id: 5,
+        title: "2026 裕ㅼ?而?<?명듃瑜대떞 ???뚮━> VIP??2留?,
+        category: "?꾩꽌/?곗폆",
+        location: "?쒖슱??醫낅줈援???숇줈",
+        time: "1????,
+        price: 220000,
+        status: "?먮ℓ以?,
+        description: "媛묒옄湲?二쇰쭚 異쒖옣 ?쇱젙???앷꺼???뺢? ?묐룄?⑸땲??\n1痢?C援ъ뿭 VIP???곗꽍 2?μ엯?덈떎. ?섏닔猷??놁씠 ?낃툑 ?뺤씤 ???踰덊샇 ?꾨떖?쒕┰?덈떎.",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="14" stroke-dasharray="2 2"/><line x1="18" y1="10" x2="18" y2="14" stroke-dasharray="2 2"/><path d="M10 12h4"/></svg>`
+      },
+      {
+        id: 6,
+        title: "?뚰뀗???ㅼ쐞移?OLED ?ㅼ뭡??諛붿씠?щ젢 ?먮뵒??,
+        category: "湲고?",
+        location: "?쒖슱???⑹궛援??쒕궓??,
+        time: "2????,
+        price: 310000,
+        status: "?먮ℓ以?,
+        description: "?뚰뀗???ㅼ쐞移?OLED ?쒖젙?먯엯?덈떎.\n援щℓ 吏곹썑 媛뺥솕?좊━ ?꾨쫫 遺숈?怨?TPU 耳?댁뒪 ?뚯썙???ъ슜?섏뿬 湲곗뒪 ?섎굹 ?놁뒿?덈떎.",
+        svgIcon: `<svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#8D5B4C" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="10" r="1" fill="#8D5B4C"/><circle cx="18" cy="12" r="1" fill="#8D5B4C"/><circle cx="16" cy="14" r="1" fill="#8D5B4C"/><circle cx="14" cy="12" r="1" fill="#8D5B4C"/></svg>`
+      }
+    ];
+
+    // State Variables
+    let currentCategory = "?꾩껜";
+    let searchQuery = "";
+    let availableOnly = false;
+
+    // DOM Elements
+    const productGrid = document.getElementById('productGrid');
+    const productCountEl = document.getElementById('productCount');
+    const categoryBar = document.getElementById('categoryBar');
+    const searchInput = document.getElementById('searchInput');
+    const availableOnlyToggle = document.getElementById('availableOnlyToggle');
+
+    // Modals & Triggers
+    const productDetailModal = document.getElementById('productDetailModal');
+    const btnCloseDetailModal = document.getElementById('btnCloseDetailModal');
+    const writeModal = document.getElementById('writeModal');
+    const btnWriteTrigger = document.getElementById('btnWriteTrigger');
+    const btnCloseWriteModal = document.getElementById('btnCloseWriteModal');
+    const btnCancelWrite = document.getElementById('btnCancelWrite');
+    const btnGoWrite = document.getElementById('btnGoWrite');
+    const btnLogin = document.getElementById('btnLogin');
+
+    // Helper: Price Formatter (KRW)
+    function formatPrice(price) {
+      return price.toLocaleString('ko-KR') + '??;
+    }
+
+    // Helper: Status Badge Class & Label
+    function getStatusBadgeHtml(status) {
+      let badgeClass = 'badge-selling';
+      if (status === '?덉빟以?) badgeClass = 'badge-reserved';
+      if (status === '嫄곕옒?꾨즺') badgeClass = 'badge-completed';
+      return `<span class="status-badge ${badgeClass}">${status}</span>`;
+    }
+
+    // Render Product Cards
+    function renderProducts() {
+      const filtered = mockProducts.filter(item => {
+        // Category Filter
+        const matchesCategory = (currentCategory === "?꾩껜") || (item.category === currentCategory);
+        
+        // Search Filter (Title or Location)
+        const q = searchQuery.trim().toLowerCase();
+        const matchesSearch = !q || item.title.toLowerCase().includes(q) || item.location.toLowerCase().includes(q);
+        
+        // Available Only Filter ('?먮ℓ以? 留??쒖떆)
+        const matchesAvailable = !availableOnly || (item.status === '?먮ℓ以?);
+
+        return matchesCategory && matchesSearch && matchesAvailable;
+      });
+
+      productCountEl.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        productGrid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">?쪛?뵇</div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">議곌굔??留욌뒗 ?곹뭹???놁뒿?덈떎.</h3>
+            <p style="font-size: 0.9rem;">?ㅻⅨ 寃?됱뼱???꾪꽣瑜??좏깮?대낫?몄슂!</p>
+          </div>
+        `;
+        return;
+      }
+
+      productGrid.innerHTML = filtered.map(item => `
+        <article class="product-card" data-id="${item.id}">
+          <div class="card-img-wrapper">
+            ${getStatusBadgeHtml(item.status)}
+            ${item.svgIcon}
+          </div>
+          <div class="card-content">
+            <div>
+              <h3 class="card-title">${item.title}</h3>
+              <div class="card-meta">
+                <span>${item.location}</span>
+                <span>쨌</span>
+                <span>${item.time}</span>
+              </div>
+            </div>
+            <div class="card-price">${formatPrice(item.price)}</div>
+          </div>
+        </article>
+      `).join('');
+
+      // Attach Click Event Listeners to Product Cards (移대뱶 ?대┃ ???곸꽭 紐⑤떖 ?곕룞)
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const productId = parseInt(card.getAttribute('data-id'), 10);
+          openProductDetailModal(productId);
+        });
+      });
+    }
+
+    // Open Product Detail Modal (?곸꽭 紐⑤떖 ?곕룞 援щЦ)
+    function openProductDetailModal(id) {
+      const product = mockProducts.find(p => p.id === id);
+      if (!product) return;
+
+      document.getElementById('modalImgContainer').innerHTML = `
+        ${product.svgIcon}
+      `;
+      
+      const statusBadge = document.getElementById('modalStatusBadge');
+      statusBadge.textContent = product.status;
+      statusBadge.className = `status-badge ${
+        product.status === '?먮ℓ以? ? 'badge-selling' :
+        product.status === '?덉빟以? ? 'badge-reserved' : 'badge-completed'
+      }`;
+
+      document.getElementById('modalCategory').textContent = product.category;
+      document.getElementById('modalTitle').textContent = product.title;
+      document.getElementById('modalMeta').textContent = `${product.location} 쨌 ${product.time}`;
+      document.getElementById('modalPrice').textContent = formatPrice(product.price);
+      document.getElementById('modalDesc').textContent = product.description;
+
+      productDetailModal.classList.add('active');
+    }
+
+    // Event Listeners
+    // 1. Category Filter Buttons Click
+    categoryBar.addEventListener('click', (e) => {
+      if (e.target.classList.contains('category-btn')) {
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = e.target.getAttribute('data-category');
+        renderProducts();
+      }
+    });
+
+    // 2. Search Input
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderProducts();
+    });
+
+    // 3. '嫄곕옒 媛?λ쭔 蹂닿린' Toggle
+    availableOnlyToggle.addEventListener('change', (e) => {
+      availableOnly = e.target.checked;
+      renderProducts();
+    });
+
+    // 4. Modal Close
+    btnCloseDetailModal.addEventListener('click', () => {
+      productDetailModal.classList.remove('active');
+    });
+
+    productDetailModal.addEventListener('click', (e) => {
+      if (e.target === productDetailModal) {
+        productDetailModal.classList.remove('active');
+      }
+    });
+
+    // 5. [湲?곌린] 踰꾪듉 Trigger Event Binding
+    btnWriteTrigger.addEventListener('click', () => {
+      // 而ㅼ뒪? ?대깽??trigger 諛쒖넚
+      const event = new CustomEvent('openWriteModal', { detail: { timestamp: new Date() } });
+      window.dispatchEvent(event);
+      
+      // 湲?곌린 ?덈궡 紐⑤떖 ?ㅽ뵂
+      writeModal.classList.add('active');
+    });
+
+    // 湲?곌린 紐⑤떖 ?リ린 & ?대룞
+    btnCloseWriteModal.addEventListener('click', () => writeModal.classList.remove('active'));
+    btnCancelWrite.addEventListener('click', () => writeModal.classList.remove('active'));
+    btnGoWrite.addEventListener('click', () => {
+      window.location.href = 'screen3_write.html';
+    });
+    writeModal.addEventListener('click', (e) => {
+      if (e.target === writeModal) writeModal.classList.remove('active');
+    });
+
+    // 6. [濡쒓렇?? 踰꾪듉 Click
+    btnLogin.addEventListener('click', () => {
+      alert('?쪛 濡쒓렇???쒕퉬??以鍮?以묒엯?덈떎!\n媛먯옄 ?뚯썝 濡쒓렇???뚯썝媛??湲곕뒫? 2?④퀎 ?낅뜲?댄듃?먯꽌 ?쒓났?⑸땲??');
+    });
+
+    // 李쒗븯湲?梨꾪똿?섍린 踰꾪듉 ?덉떆 ?몃뱾??    document.getElementById('btnWish').addEventListener('click', () => {
+      alert('?ㅿ툘 ?대떦 ?곹뭹??愿???곹뭹(李? 紐⑸줉??異붽??섏뿀?듬땲??');
+    });
+
+    document.getElementById('btnChat').addEventListener('click', () => {
+      alert('?뮠 ?먮ℓ?먯? 1:1 媛먯옄??梨꾪똿???쒖옉?⑸땲??');
+    });
+
+    // Initial Render
+    renderProducts();
+  </script>
+</body>
+</html>

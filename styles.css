@@ -1,0 +1,1164 @@
+/* 감자(Gamza) - 중고 거래 서비스 통합 디자인 시스템 (CSS) */
+
+:root {
+  /* Brand Color Palette (Brown Base) */
+  --primary-brown: #8D5B4C;
+  --primary-hover: #74473A;
+  --light-brown: #A06C5D;
+  --cream-bg: #FAF7F2;
+  --cream-accent: #FFF4C2;
+  --cream-hover: #FFE680;
+  --card-bg: #FFFFFF;
+  
+  /* Point Yellow Colors */
+  --point-yellow: #FFC800;
+  --point-yellow-hover: #E6B400;
+  --point-yellow-soft: #FFF4C2;
+  --point-yellow-border: #FFD633;
+  --text-on-yellow: #332219;
+  
+  /* Text Colors */
+  --text-main: #332219;
+  --text-sub: #7A6B63;
+  --text-light: #9E8E85;
+  
+  /* Border & Shadow */
+  --border-color: #E8DFD7;
+  --shadow-sm: 0 2px 8px rgba(141, 91, 76, 0.08);
+  --shadow-md: 0 6px 16px rgba(141, 91, 76, 0.12);
+  --shadow-lg: 0 12px 28px rgba(141, 91, 76, 0.18);
+  --shadow-yellow: 0 4px 14px rgba(255, 200, 0, 0.4);
+  
+  /* Status Badges Color */
+  --badge-selling-bg: #E8F5E9;
+  --badge-selling-text: #2E7D32;
+  --badge-reserved-bg: #FFF3E0;
+  --badge-reserved-text: #EF6C00;
+  --badge-completed-bg: #EEEEEE;
+  --badge-completed-text: #616161;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--cream-bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================
+   1. 헤더 (Header)
+   ========================================== */
+.main-header {
+  width: 100%;
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+.logo-icon {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #FFD54F, #FFB300);
+  border-radius: 50% 45% 50% 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 6px rgba(255, 179, 0, 0.4);
+  font-size: 20px;
+  transform: rotate(-10deg);
+  transition: transform 0.2s ease;
+}
+
+.logo-container:hover .logo-icon {
+  transform: rotate(0deg) scale(1.08);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 440px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 16px 10px 42px;
+  border-radius: 24px;
+  border: 1.5px solid var(--border-color);
+  background-color: #FCFBF9;
+  font-size: 0.92rem;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--point-yellow-hover);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  fill: var(--text-sub);
+  pointer-events: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 9px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  outline: none;
+}
+
+.btn-write {
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  font-weight: 800;
+  box-shadow: var(--shadow-yellow);
+}
+
+.btn-write:hover {
+  background-color: var(--point-yellow-hover);
+  color: var(--text-on-yellow);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(255, 200, 0, 0.45);
+}
+
+.btn-login {
+  background-color: var(--point-yellow-soft);
+  color: var(--text-main);
+  border: 1px solid var(--point-yellow-border);
+}
+
+.btn-login:hover {
+  background-color: var(--point-yellow-hover);
+  color: var(--text-on-yellow);
+}
+
+/* ==========================================
+   2. 메인 영역 & 필터
+   ========================================== */
+main.container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  flex: 1;
+}
+
+.category-section {
+  margin-bottom: 20px;
+}
+
+.category-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.category-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.category-btn {
+  padding: 9px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  background-color: #FCFAF7;
+  border-color: var(--point-yellow-border);
+  color: var(--text-main);
+}
+
+.category-btn.active {
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  border-color: var(--point-yellow-hover);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(255, 200, 0, 0.35);
+}
+
+.filter-control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background-color: var(--card-bg);
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+}
+
+.available-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  user-select: none;
+}
+
+.toggle-checkbox {
+  display: none;
+}
+
+.toggle-switch {
+  width: 42px;
+  height: 24px;
+  background-color: #E0D6CE;
+  border-radius: 12px;
+  position: relative;
+  transition: background-color 0.25s ease;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toggle-checkbox:checked + .toggle-switch {
+  background-color: var(--point-yellow);
+}
+
+.toggle-checkbox:checked + .toggle-switch::after {
+  transform: translateX(18px);
+}
+
+.product-count-info {
+  font-size: 0.88rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+.product-count-info span {
+  color: #B56C00;
+  background-color: var(--point-yellow-soft);
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+/* ==========================================
+   3. 상품 카드 그리드 (Product Grid & Card)
+   ========================================== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.product-card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(141, 91, 76, 0.3);
+}
+
+.product-card.completed {
+  opacity: 0.55;
+  filter: grayscale(25%);
+  transition: all 0.25s ease;
+}
+
+.product-card.completed:hover {
+  opacity: 0.85;
+  filter: grayscale(0%);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 200px;
+  background-color: #F5EFEE;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .card-image {
+  transform: scale(1.04);
+}
+
+.status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-badge.판매중, .status-badge.selling {
+  background-color: var(--badge-selling-bg);
+  color: var(--badge-selling-text);
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.status-badge.예약중, .status-badge.reserved {
+  background-color: var(--badge-reserved-bg);
+  color: var(--badge-reserved-text);
+  border: 1px solid rgba(239, 108, 0, 0.2);
+}
+
+.status-badge.거래완료, .status-badge.completed {
+  background-color: var(--badge-completed-bg);
+  color: var(--badge-completed-text);
+  border: 1px solid rgba(97, 97, 97, 0.2);
+}
+
+.card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.4;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-meta {
+  font-size: 0.82rem;
+  color: var(--text-sub);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.card-price {
+  margin-top: auto;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--primary-brown);
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  border: 1.5px dashed var(--border-color);
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.no-results-text {
+  font-size: 1.05rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+
+/* ==========================================
+   4. 모달 공통 레이아웃 (Modal Layer)
+   ========================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(40, 25, 20, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background-color: var(--card-bg);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.modal-overlay.active .modal-container {
+  transform: translateY(0) scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border-color);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  border-color: var(--point-yellow-hover);
+}
+
+/* ==========================================
+   5. 상세 팝업 모달
+   ========================================== */
+.detail-image-container {
+  width: 100%;
+  height: 320px;
+  background-color: #F5EFEE;
+  position: relative;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-body {
+  padding: 24px;
+}
+
+.detail-seller-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.seller-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: var(--cream-accent);
+  border: 1px solid var(--border-color);
+}
+
+.seller-info {
+  flex: 1;
+}
+
+.seller-nickname {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.seller-region {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
+
+.seller-temp {
+  background-color: var(--point-yellow-soft);
+  color: var(--text-main);
+  border: 1px solid var(--point-yellow-border);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+/* 작성자 전용 관리 컨트롤러 */
+.owner-actions-group {
+  background-color: #FFF9F2;
+  border: 1.5px solid #F5E5D3;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(141, 91, 76, 0.06);
+}
+
+.owner-status-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.owner-status-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-btn-group {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-status-option {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  background-color: #FFFFFF;
+  color: var(--text-sub);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.btn-status-option:hover {
+  background-color: #F8F1EB;
+  color: var(--text-main);
+  border-color: var(--point-yellow-border);
+}
+
+.btn-status-option.active[data-status="판매중"] {
+  background-color: var(--badge-selling-bg);
+  color: var(--badge-selling-text);
+  border-color: rgba(46, 125, 50, 0.4);
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(46, 125, 50, 0.15);
+}
+
+.btn-status-option.active[data-status="예약중"] {
+  background-color: var(--badge-reserved-bg);
+  color: var(--badge-reserved-text);
+  border-color: rgba(239, 108, 0, 0.4);
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(239, 108, 0, 0.15);
+}
+
+.btn-status-option.active[data-status="거래완료"] {
+  background-color: var(--badge-completed-bg);
+  color: var(--badge-completed-text);
+  border-color: rgba(97, 97, 97, 0.4);
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(97, 97, 97, 0.15);
+}
+
+.owner-edit-delete-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  border-top: 1px dashed var(--border-color);
+  padding-top: 10px;
+}
+
+.btn-owner-action {
+  padding: 7px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-owner-action.btn-edit {
+  background-color: #EBF3FE;
+  color: #1E6091;
+  border: 1px solid #BEE1F4;
+}
+
+.btn-owner-action.btn-edit:hover {
+  background-color: #D0E3FF;
+  transform: translateY(-1px);
+}
+
+.btn-owner-action.btn-delete {
+  background-color: #FDE8E8;
+  color: #E53935;
+  border: 1px solid #F8B4B4;
+}
+
+.btn-owner-action.btn-delete:hover {
+  background-color: #FBD5D5;
+  transform: translateY(-1px);
+}
+
+.detail-category-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.detail-category-tag {
+  font-size: 0.8rem;
+  color: var(--text-main);
+  font-weight: 800;
+  background-color: var(--point-yellow-soft);
+  border: 1px solid var(--point-yellow-border);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.detail-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.detail-submeta {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+
+.detail-price {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-brown);
+  margin-bottom: 20px;
+}
+
+.detail-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4A3C35;
+  white-space: pre-wrap;
+  background-color: #FCFAF7;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+
+.detail-footer-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-like {
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background-color: #FFFFFF;
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-like:hover {
+  background-color: #FFF3F0;
+  border-color: #FF8A65;
+  color: #E53935;
+}
+
+.btn-like.liked {
+  background-color: #FFEBEE;
+  color: #E53935;
+  border-color: #FFCDD2;
+}
+
+.btn-chat {
+  flex: 1;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  font-weight: 800;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-yellow);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-chat:hover {
+  background-color: var(--point-yellow-hover);
+  color: var(--text-on-yellow);
+  box-shadow: 0 6px 14px rgba(255, 200, 0, 0.45);
+}
+
+/* ==========================================
+   6. 글쓰기 모달
+   ========================================== */
+.write-modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.write-modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.write-form {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.form-label span.required {
+  color: #E53935;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background-color: #FCFBF9;
+  color: var(--text-main);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--point-yellow-hover);
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.25);
+}
+
+.form-textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.image-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image-preview-box {
+  width: 100%;
+  height: 140px;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #FCFAF7;
+  position: relative;
+}
+
+.image-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-preview-placeholder {
+  color: var(--text-light);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;
+}
+
+.radio-card {
+  flex: 1;
+  position: relative;
+}
+
+.radio-card input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-card label {
+  display: block;
+  text-align: center;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.radio-card input:checked + label {
+  border-color: var(--point-yellow-hover);
+  background-color: var(--point-yellow-soft);
+  color: var(--text-main);
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(255, 200, 0, 0.25);
+}
+
+.btn-submit-write {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  font-size: 1rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-yellow);
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.btn-submit-write:hover {
+  background-color: var(--point-yellow-hover);
+  color: var(--text-on-yellow);
+  box-shadow: 0 6px 14px rgba(255, 200, 0, 0.45);
+}
+
+/* Toast Notice */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: #332219;
+  color: var(--point-yellow);
+  border: 1px solid var(--point-yellow-border);
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  z-index: 2000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast-notice.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ==========================================
+   6.5. 로그인 모달 & 회원 정보 헤더 스타일
+   ========================================== */
+.user-profile-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-nickname-tag {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background-color: var(--cream-accent);
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--point-yellow-border);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-logout {
+  background-color: #F0EAE1;
+  color: var(--text-sub);
+  border: 1px solid var(--border-color);
+}
+
+.btn-logout:hover {
+  background-color: #E2D9CC;
+  color: var(--text-main);
+}
+
+.auth-modal-container {
+  max-width: 420px;
+  width: 90%;
+  padding: 32px 28px;
+}
+
+.auth-tabs {
+  display: flex;
+  background-color: var(--cream-bg);
+  padding: 5px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border-color);
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-tab-btn.active {
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.btn-submit-auth {
+  width: 100%;
+  padding: 13px;
+  background-color: var(--point-yellow);
+  color: var(--text-on-yellow);
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: var(--shadow-yellow);
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.btn-submit-auth:hover {
+  background-color: var(--point-yellow-hover);
+  transform: translateY(-1px);
+}
+
+.btn-submit-auth:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.card-seller-nickname {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================
+   7. 반응형 미디어 쿼리 (Responsive Rules)
+   ========================================== */
+@media (max-width: 900px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-content {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  
+  .logo-text {
+    font-size: 1.35rem;
+  }
+  
+  .search-bar {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 6px;
+  }
+  
+  main.container {
+    padding: 16px 14px;
+  }
+  
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .card-image-wrapper {
+    height: 140px;
+  }
+  
+  .card-body {
+    padding: 12px;
+  }
+  
+  .card-title {
+    font-size: 0.9rem;
+  }
+  
+  .card-price {
+    font-size: 1rem;
+  }
+  
+  .modal-container {
+    max-height: 95vh;
+    border-radius: 20px 20px 0 0;
+    align-self: flex-end;
+  }
+
+  .detail-image-container {
+    height: 240px;
+  }
+}

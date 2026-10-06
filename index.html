@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>감자(Gamza) - 따뜻한 이웃 중고거래</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+  <!-- [화면 1] 헤더 & 상단 영역 -->
+  <header class="main-header">
+    <div class="header-content">
+      <!-- 로고 -->
+      <div class="logo-container" onclick="window.location.reload();">
+        <div class="logo-icon">🥔</div>
+        <span class="logo-text">감자</span>
+      </div>
+
+      <!-- 검색 창 -->
+      <div class="search-bar">
+        <svg class="search-icon" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="연남동 근처에서 검색 (상품명, 카테고리)">
+      </div>
+
+      <!-- 상단 액션 버튼 -->
+      <div class="header-actions">
+        <button id="btnHeaderWrite" class="btn btn-write" type="button">
+          <span style="pointer-events: none;">✏️</span> 글쓰기
+        </button>
+        <button id="btnHeaderLogin" class="btn btn-login" type="button">
+          로그인
+        </button>
+        <div id="userProfileGroup" class="user-profile-group" style="display: none;">
+          <span id="headerUserNickname" class="user-nickname-tag">🥔 닉네임</span>
+          <button id="btnHeaderLogout" class="btn btn-logout" type="button">
+            로그아웃
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- [화면 1] 메인 콘텐츠 -->
+  <main class="container">
+    <section class="category-section">
+      <div class="category-bar">
+        <button class="category-btn active" data-category="전체">전체</button>
+        <button class="category-btn" data-category="디지털 기기">디지털 기기</button>
+        <button class="category-btn" data-category="가구/인테리어">가구/인테리어</button>
+        <button class="category-btn" data-category="의류">의류</button>
+        <button class="category-btn" data-category="생활가전">생활가전</button>
+        <button class="category-btn" data-category="도서/티켓">도서/티켓</button>
+        <button class="category-btn" data-category="기타">기타</button>
+      </div>
+    </section>
+
+    <section class="filter-control-bar">
+      <label class="available-toggle-label">
+        <input type="checkbox" id="availableOnlyCheck" class="toggle-checkbox">
+        <span class="toggle-switch"></span>
+        <span>거래 가능만 보기</span>
+      </label>
+      <div class="product-count-info">
+        총 <span id="productCountText">0</span>개의 감자 상품
+      </div>
+    </section>
+
+    <section id="productGrid" class="product-grid">
+      <!-- JavaScript renderProducts()로 동적 삽입 -->
+    </section>
+  </main>
+
+  <!-- [화면 2] 상품 상세 팝업 (모달) -->
+  <div id="detailModal" class="modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close-btn" data-close-modal aria-label="닫기">&times;</button>
+      
+      <div class="detail-image-container">
+        <img id="detailImage" class="detail-image" src="" alt="상품 이미지">
+      </div>
+
+      <div class="detail-body">
+        <div class="detail-seller-box">
+          <img id="sellerAvatar" class="seller-avatar" src="" alt="프로필">
+          <div class="seller-info">
+            <div id="sellerNickname" class="seller-nickname"></div>
+            <div id="sellerRegion" class="seller-region"></div>
+          </div>
+          <div id="sellerTemp" class="seller-temp">36.5℃ 🥔</div>
+        </div>
+
+        <!-- [작성자 전용 관리 컨트롤러] -->
+        <div id="ownerActionsGroup" class="owner-actions-group" style="display: none;">
+          <div class="owner-status-box">
+            <span class="owner-status-label">⚙️ 상태 변경:</span>
+            <div class="status-btn-group">
+              <button type="button" class="btn-status-option" data-status="판매중">판매중</button>
+              <button type="button" class="btn-status-option" data-status="예약중">예약중</button>
+              <button type="button" class="btn-status-option" data-status="거래완료">거래완료</button>
+            </div>
+          </div>
+          <div class="owner-edit-delete-btns">
+            <button id="btnEditProduct" type="button" class="btn-owner-action btn-edit">✏️ 수정</button>
+            <button id="btnDeleteProduct" type="button" class="btn-owner-action btn-delete">🗑️ 삭제</button>
+          </div>
+        </div>
+
+        <div class="detail-category-meta">
+          <span id="detailStatusBadge" class="status-badge">판매중</span>
+          <span id="detailCategory" class="detail-category-tag">카테고리</span>
+        </div>
+
+        <h2 id="detailTitle" class="detail-title">상품 제목</h2>
+        
+        <div class="detail-submeta">
+          <span id="detailLocation">위치</span> • <span id="detailTime">시간</span>
+        </div>
+
+        <div id="detailPrice" class="detail-price">0원</div>
+
+        <div id="detailDescription" class="detail-description">
+          상품 설명 내용이 나옵니다.
+        </div>
+
+        <div class="detail-footer-actions">
+          <button id="btnLike" class="btn-like">🤍 관심 추가</button>
+          <button id="btnChat" class="btn-chat">💬 채팅 시작하기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- [화면 3] 상품 글쓰기 팝업 (모달) -->
+  <div id="writeModal" class="modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close-btn" data-close-modal aria-label="닫기">&times;</button>
+      
+      <div class="write-modal-header">
+        <h2 id="writeModalTitle" class="write-modal-title">🥔 내 물건 팔기</h2>
+      </div>
+
+      <form id="writeForm" class="write-form">
+        <div class="form-group">
+          <label class="form-label">상품 이미지</label>
+          <div class="image-input-container">
+            <input type="text" id="writeImgUrl" class="form-input" placeholder="이미지 URL 주소를 입력하세요 (선택)">
+            <input type="file" id="writeImgFile" class="form-input" accept="image/*">
+            <div id="imagePreview" class="image-preview-box">
+              <span class="image-preview-placeholder">이미지 URL을 입력하거나 파일 선택 시<br>미리보기가 표시됩니다.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="writeTitle">상품명 <span class="required">*</span></label>
+          <input type="text" id="writeTitle" class="form-input" placeholder="글 제목 (예: 아이패드 에어 5세대)" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="writeCategory">카테고리 <span class="required">*</span></label>
+          <select id="writeCategory" class="form-select" required>
+            <option value="디지털 기기">디지털 기기</option>
+            <option value="가구/인테리어">가구/인테리어</option>
+            <option value="의류">의류</option>
+            <option value="생활가전">생활가전</option>
+            <option value="도서/티켓">도서/티켓</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="writePrice">가격 (원) <span class="required">*</span></label>
+          <input type="number" id="writePrice" class="form-input" placeholder="숫자만 입력 (예: 15000)" min="0" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="writeLocation">거래 동네 <span class="required">*</span></label>
+          <input type="text" id="writeLocation" class="form-input" placeholder="예: 서울시 마포구 연남동" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">판매 상태 <span class="required">*</span></label>
+          <div class="radio-group">
+            <div class="radio-card">
+              <input type="radio" id="statusSelling" name="writeStatus" value="판매중" checked>
+              <label for="statusSelling">판매중</label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" id="statusReserved" name="writeStatus" value="예약중">
+              <label for="statusReserved">예약중</label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" id="statusCompleted" name="writeStatus" value="거래완료">
+              <label for="statusCompleted">거래완료</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <label class="form-label" for="writeDescription">자세한 설명 <span class="required">*</span></label>
+            <span class="char-counter" style="font-size: 0.8rem; color: var(--text-sub);"><span id="descCharCount">0</span> / 500자</span>
+          </div>
+          <textarea id="writeDescription" class="form-textarea" placeholder="신뢰할 수 있는 거래를 위해 상품 상태, 구매 시기, 하자 유무 등을 솔직하게 작성해주세요." maxlength="500" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit-write">작성 완료</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- [화면 4] 로그인 / 회원가입 팝업 (모달) -->
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-container auth-modal-container">
+      <button class="modal-close-btn" data-close-modal aria-label="닫기">&times;</button>
+      
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tabLoginBtn">로그인</button>
+        <button type="button" class="auth-tab-btn" id="tabSignupBtn">회원가입</button>
+      </div>
+
+      <!-- 로그인 폼 -->
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">이메일 <span class="required">*</span></label>
+          <input type="email" id="loginEmail" class="form-input" placeholder="example@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">비밀번호 <span class="required">*</span></label>
+          <input type="password" id="loginPassword" class="form-input" placeholder="비밀번호 입력" required>
+        </div>
+
+        <button type="submit" id="btnSubmitLogin" class="btn-submit-auth">로그인</button>
+      </form>
+
+      <!-- 회원가입 폼 -->
+      <form id="signupForm" class="auth-form" style="display: none;">
+        <div class="form-group">
+          <label class="form-label" for="signupEmail">이메일 <span class="required">*</span></label>
+          <input type="email" id="signupEmail" class="form-input" placeholder="example@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupPassword">비밀번호 <span class="required">*</span></label>
+          <input type="password" id="signupPassword" class="form-input" placeholder="6자리 이상 입력" minlength="6" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="signupNickname">닉네임 <span class="required">*</span></label>
+          <input type="text" id="signupNickname" class="form-input" placeholder="사용할 닉네임 (예: 감자도리)" required>
+        </div>
+
+        <button type="submit" id="btnSubmitSignup" class="btn-submit-auth">회원가입</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js" charset="UTF-8"></script>
+</body>
+</html>

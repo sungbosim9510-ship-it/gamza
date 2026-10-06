@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>媛먯옄(Gamza) - ?곹뭹 ?곸꽭 ?앹뾽 [?붾㈃ 2]</title>
+  <style>
+    :root {
+      --primary-brown: #8D5B4C;
+      --primary-hover: #74473A;
+      --accent-brown: #D9A07B;
+      --bg-cream: #FAF7F2;
+      --card-bg: #FFFFFF;
+      --text-dark: #332219;
+      --text-muted: #7A6B63;
+      --border-color: #E5DDD5;
+      --input-bg: #FDFCFB;
+      --shadow-color: rgba(141, 91, 76, 0.15);
+      --shadow-deep: rgba(51, 34, 25, 0.25);
+      
+      /* Point Yellow Accent */
+      --point-yellow: #FFC800;
+      --point-yellow-hover: #E6B400;
+      --point-yellow-soft: #FFF4C2;
+      --point-yellow-border: #FFD633;
+      --text-on-yellow: #332219;
+
+      --danger-color: #E74C3C;
+      --badge-sale-bg: #E8F5E9;
+      --badge-sale-text: #2E7D32;
+      --badge-reserved-bg: #FFF3E0;
+      --badge-reserved-text: #E65100;
+      --badge-completed-bg: #ECEFF1;
+      --badge-completed-text: #546E7A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Page Header */
+    header {
+      width: 100%;
+      max-width: 680px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-brown);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-tag {
+      font-size: 0.85rem;
+      background: var(--bg-cream);
+      color: var(--primary-brown);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Main Container & Product Grid */
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .section-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px var(--shadow-color);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--border-color);
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    .card-thumb-wrap {
+      width: 100%;
+      height: 200px;
+      position: relative;
+      background-color: #F0ECE9;
+      overflow: hidden;
+    }
+
+    .card-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .card-thumb {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-category {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .card-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-brown);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .status-badge.sale {
+      background-color: var(--badge-sale-bg);
+      color: var(--badge-sale-text);
+    }
+
+    .status-badge.reserved {
+      background-color: var(--badge-reserved-bg);
+      color: var(--badge-reserved-text);
+    }
+
+    .status-badge.completed {
+      background-color: var(--badge-completed-bg);
+      color: var(--badge-completed-text);
+    }
+
+    /* ========================================================
+       [?붾㈃ 2] ?곸꽭 紐⑤떖 (#detailModal) ?ㅽ???       ======================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(51, 34, 25, 0.55);
+      backdrop-filter: blur(5px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-container {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 520px;
+      height: 90vh;
+      max-height: 820px;
+      border-radius: 24px;
+      box-shadow: 0 16px 40px var(--shadow-deep);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-container {
+      transform: translateY(0) scale(1);
+    }
+
+    /* Top Half: Product Image Area */
+    .modal-image-area {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      min-height: 280px;
+      background-color: #F5F1ED;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    /* Overlay Controls on Image */
+    .btn-close-modal {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.4);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      z-index: 10;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(0, 0, 0, 0.65);
+      transform: rotate(90deg);
+    }
+
+    /* Image Pagination Dots */
+    .image-pagination {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px 10px;
+      border-radius: 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .page-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transition: all 0.2s ease;
+    }
+
+    .page-dot.active {
+      background: #FFFFFF;
+      width: 16px;
+      border-radius: 4px;
+    }
+
+    /* Bottom Content Area (Scrollable) */
+    .modal-content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Custom Scrollbar */
+    .modal-content-area::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-content-area::-webkit-scrollbar-thumb {
+      background: #D9D2CB;
+      border-radius: 3px;
+    }
+
+    /* Seller Info Section */
+    .seller-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .seller-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .seller-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+      background-color: var(--bg-cream);
+    }
+
+    .seller-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .seller-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+
+    .seller-location {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .seller-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--point-yellow-soft);
+      border: 1px solid var(--point-yellow-border);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* Product Main Info */
+    .product-detail-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .badge-category-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .product-category-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .modal-product-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .modal-product-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .modal-product-meta span::after {
+      content: "??;
+      margin-left: 8px;
+    }
+    .modal-product-meta span:last-child::after {
+      content: "";
+    }
+
+    .modal-product-price {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--primary-brown);
+      margin-top: 4px;
+    }
+
+    /* Description Box */
+    .product-description-wrap {
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .product-description {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* Engagement Stats */
+    .engagement-stats {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      padding-top: 12px;
+    }
+
+    /* Bottom Button Area (Fixed Footer in Modal) */
+    .modal-footer {
+      padding: 14px 24px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-wishlist {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      background: var(--card-bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-wishlist:hover {
+      background: var(--bg-cream);
+      border-color: var(--accent-brown);
+    }
+
+    .btn-wishlist svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--text-muted);
+      stroke-width: 2;
+      transition: all 0.2s ease;
+    }
+
+    .btn-wishlist.active {
+      border-color: #FF6B6B;
+      background: #FFF5F5;
+    }
+
+    .btn-wishlist.active svg {
+      fill: #FF6B6B;
+      stroke: #FF6B6B;
+    }
+
+    .btn-chat {
+      flex: 1;
+      height: 52px;
+      border-radius: 14px;
+      border: none;
+      background-color: var(--point-yellow);
+      color: var(--text-on-yellow);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(255, 200, 0, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .btn-chat:hover {
+      background-color: var(--point-yellow-hover);
+      color: var(--text-on-yellow);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 200, 0, 0.5);
+    }
+
+    .btn-chat:active {
+      transform: translateY(0);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(51, 34, 25, 0.9);
+      color: #FFFFFF;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <span>?쪛</span> Gamza
+    </div>
+    <div class="header-tag">?붾㈃ 2: ?곹뭹 ?곸꽭 ?앹뾽</div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">理쒓렐 ?깅줉??媛먯옄 ?곹뭹</h2>
+        <p class="section-desc">移대뱶瑜??대┃?섏뿬 ?곸꽭 ?뺣낫 紐⑤떖 ?앹뾽???뺤씤?섏꽭??</p>
+      </div>
+    </div>
+
+    <!-- Product Grid Demo -->
+    <div class="product-grid" id="productGrid">
+      <!-- Product cards populated by JS -->
+    </div>
+  </div>
+
+  <!-- ========================================================
+       [?붾㈃ 2] ?곸꽭 ?앹뾽 紐⑤떖 (#detailModal)
+       ======================================================== -->
+  <div class="modal-overlay" id="detailModal" onclick="handleOverlayClick(event)">
+    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      
+      <!-- Top Half: Product Image -->
+      <div class="modal-image-area">
+        <button type="button" class="btn-close-modal" onclick="closeDetailModal()" aria-label="?앹뾽 ?リ린">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <img id="modalImage" class="modal-image" src="" alt="?곹뭹 ?대?吏">
+
+        <div class="image-pagination">
+          <div class="page-dot active"></div>
+          <div class="page-dot"></div>
+          <div class="page-dot"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Content Area -->
+      <div class="modal-content-area">
+
+        <!-- Seller Info Section -->
+        <div class="seller-section">
+          <div class="seller-profile">
+            <img id="modalSellerAvatar" class="seller-avatar" src="" alt="?먮ℓ???꾨줈??>
+            <div class="seller-info">
+              <span id="modalSellerName" class="seller-name">-</span>
+              <span id="modalSellerLocation" class="seller-location">-</span>
+            </div>
+          </div>
+          <div class="seller-badge">
+            <span>?쪛</span>
+            <span id="modalMannerTemp">36.5째C</span>
+          </div>
+        </div>
+
+        <!-- Product Detail Information -->
+        <div class="product-detail-info">
+          <div class="badge-category-row">
+            <span id="modalStatusBadge" class="status-badge sale">?먮ℓ以?/span>
+            <span id="modalCategory" class="product-category-tag">?붿???湲곌린</span>
+          </div>
+
+          <h1 id="modalTitle" class="modal-product-title">?곹뭹紐?/h1>
+
+          <div class="modal-product-meta">
+            <span id="modalLocation">?쒖슱 留덊룷援?/span>
+            <span id="modalUploadTime">10遺???/span>
+          </div>
+
+          <div id="modalPrice" class="modal-product-price">0??/div>
+        </div>
+
+        <!-- Product Description -->
+        <div class="product-description-wrap">
+          <p id="modalDescription" class="product-description">?곹뭹 ?ㅻ챸???ㅼ뼱媛??怨듦컙?낅땲??</p>
+        </div>
+
+        <!-- Engagement Stats -->
+        <div class="engagement-stats">
+          <span>愿??<strong id="modalWishCount">0</strong></span>
+          <span>??/span>
+          <span>梨꾪똿 <strong id="modalChatCount">0</strong></span>
+          <span>??/span>
+          <span>議고쉶 <strong id="modalViewCount">0</strong></span>
+        </div>
+
+      </div>
+
+      <!-- Fixed Bottom Buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn-wishlist" id="modalWishBtn" onclick="toggleWishlist()" aria-label="愿???곹뭹 異붽?">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+        <button type="button" class="btn-chat" onclick="handleStartChat()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          梨꾪똿 ?쒖옉?섍린
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div id="toast" class="toast">?뚮┝ 硫붿떆吏</div>
+
+  <!-- JavaScript -->
+  <script>
+    // Sample Data List
+    const sampleProducts = [
+      {
+        id: 1,
+        title: "?꾩씠?⑤뱶 ?먯뼱 5?몃? Wi-Fi 64GB ?ㅽ럹?댁뒪 洹몃젅??,
+        category: "?붿???湲곌린",
+        status: "sale", // sale, reserved, completed
+        statusText: "?먮ℓ以?,
+        price: 620000,
+        location: "?쒖슱 留덊룷援??쒓탳??,
+        uploadTime: "15遺???,
+        image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800&auto=format&fit=crop&q=80",
+        description: "?묐뀈??援щℓ?댁꽌 ?멸컯?⑹쑝濡쒕쭔 源붾걫?섍쾶 ?ъ슜???꾩씠?⑤뱶 ?먯뼱 5?몃? 64GB 紐⑤뜽?낅땲??\n\n- ?꾨쫫 諛?耳?댁뒪 遺李??곹깭濡?湲곗뒪 ?꾪? ?놁쓬\n- ?諛뺤뒪 (異⑹쟾湲? 耳?대툝 誘몄궗???ы븿)\n- 諛고꽣由??⑥쑉 96%\n\n吏곴굅?섎뒗 ?띾??낃뎄???먮뒗 ?⑹젙??뿉??媛?ν빀?덈떎. 留ㅻ꼫 嫄곕옒 ?먰빀?덈떎!",
+        seller: {
+          name: "媛먯옄?뺤꽦蹂?,
+          location: "留덊룷援??쒓탳??,
+          avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
+          mannerTemp: "38.2째C"
+        },
+        wishCount: 14,
+        chatCount: 5,
+        viewCount: 142,
+        isWished: false
+      },
+      {
+        id: 2,
+        title: "濡쒖???MX Keys Mini 臾댁꽑 ?ㅻ낫??(?섏씪洹몃젅??",
+        category: "?붿???媛??,
+        status: "reserved",
+        statusText: "?덉빟以?,
+        price: 85000,
+        location: "?쒖슱 ?쒖큹援?諛섑룷??,
+        uploadTime: "1?쒓컙 ??,
+        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800&auto=format&fit=crop&q=80",
+        description: "?щТ?ㅼ뿉??2媛쒖썡 ?뺣룄 ?ъ슜 ??蹂닿? 以묒씤 濡쒖???MX Keys Mini ?먮ℓ?⑸땲??\n\n?쒓? ?먰뙋 ?뺥뭹?대ŉ ?ㅺ컧??醫뗪퀬 源⑤걮?섍쾶 愿由ы뻽?듬땲??\nC???耳?대툝 ?ы븿?낅땲??",
+        seller: {
+          name: "?ш렐?쒓컧??,
+          location: "?쒖큹援?諛섑룷??,
+          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+          mannerTemp: "41.5째C"
+        },
+        wishCount: 8,
+        chatCount: 3,
+        viewCount: 89,
+        isWished: true
+      },
+      {
+        id: 3,
+        title: "鍮덊떚吏 釉뚮씪??媛二??먯폆 (M ?ъ씠利?",
+        category: "?섎쪟/?≫솕",
+        status: "completed",
+        statusText: "嫄곕옒?꾨즺",
+        price: 45000,
+        location: "?쒖슱 ?⑹궛援??댄깭?먮룞",
+        uploadTime: "3?쒓컙 ??,
+        image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&auto=format&fit=crop&q=80",
+        description: "????釉뚮씪??而щ윭 ?ㅼ씠 留ㅻ젰?곸씤 ?ㅻ쾭??鍮덊떚吏 媛二??먯폆?낅땲??\n?닿묠 48cm / 媛??56cm / 珥앹옣 68cm\n\n?먯뿰?ㅻ윭???먯씠吏뺢컧 ?덉쑝硫??륁씠 ?꾩＜ ?덉겑?덈떎.",
+        seller: {
+          name: "鍮덊떚吏?由?,
+          location: "?⑹궛援??댄깭?먮룞",
+          avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80",
+          mannerTemp: "36.8째C"
+        },
+        wishCount: 22,
+        chatCount: 12,
+        viewCount: 310,
+        isWished: false
+      },
+      {
+        id: 4,
+        title: "?쒕”湲??곕뵒移?罹≪뒓/?뚯슦??寃몄슜 癒몄떊 (?좊Ъ ?명듃 ?ы븿)",
+        category: "?앺솢/二쇰갑",
+        status: "sale",
+        statusText: "?먮ℓ以?,
+        price: 130000,
+        location: "?쒖슱 媛뺣궓援???궪??,
+        uploadTime: " ?댁젣",
+        image: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80",
+        description: "吏묒뿉???덉뭅?섏슜?쇰줈 ???곕떎媛 癒몄떊 ?낃렇?덉씠?쒕줈 ?대넃?듬땲??\n?쒗띁, ?룹옍, ?ㅽ??쇱쿂源뚯? ?쒓볼踰덉뿉 ?쒕┰?덈떎.\n\n?묐룞 ???섍퀬 ?곹깭 源붾걫?⑸땲??",
+        seller: {
+          name: "而ㅽ뵾留ㅻ땲??,
+          location: "媛뺣궓援???궪??,
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+          mannerTemp: "39.0째C"
+        },
+        wishCount: 19,
+        chatCount: 7,
+        viewCount: 205,
+        isWished: false
+      }
+    ];
+
+    let currentProduct = null;
+
+    // Render Product Cards in Grid
+    function renderProductGrid() {
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML = sampleProducts.map(p => `
+        <div class="product-card" onclick="openDetailModalById(${p.id})">
+          <div class="card-thumb-wrap">
+            <img class="card-thumb" src="${p.image}" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <div class="card-header-line">
+              <span class="card-category">${p.category}</span>
+              <span class="status-badge ${p.status}">${p.statusText}</span>
+            </div>
+            <h3 class="card-title">${p.title}</h3>
+            <div class="card-meta">${p.location} ??${p.uploadTime}</div>
+            <div class="card-footer">
+              <span class="card-price">${p.price.toLocaleString()}??/span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openDetailModalById(id) {
+      const product = sampleProducts.find(p => p.id === id);
+      if (product) {
+        openDetailModal(product);
+      }
+    }
+
+    /**
+     * openDetailModal(product)
+     * @param {Object} product - ?곹뭹 ?뺣낫 媛앹껜
+     */
+    function openDetailModal(product) {
+      currentProduct = product;
+
+      // Populate Top Image
+      document.getElementById('modalImage').src = product.image;
+      document.getElementById('modalImage').alt = product.title;
+
+      // Populate Seller Info
+      document.getElementById('modalSellerAvatar').src = product.seller.avatar;
+      document.getElementById('modalSellerName').textContent = product.seller.name;
+      document.getElementById('modalSellerLocation').textContent = product.seller.location;
+      document.getElementById('modalMannerTemp').textContent = product.seller.mannerTemp;
+
+      // Populate Status & Category
+      const badge = document.getElementById('modalStatusBadge');
+      badge.className = `status-badge ${product.status}`;
+      badge.textContent = product.statusText;
+
+      document.getElementById('modalCategory').textContent = product.category;
+
+      // Title (Uppercase / Bold)
+      document.getElementById('modalTitle').textContent = product.title;
+
+      // Meta (Location, Upload Time, Price)
+      document.getElementById('modalLocation').textContent = product.location;
+      document.getElementById('modalUploadTime').textContent = product.uploadTime;
+      document.getElementById('modalPrice').textContent = `${product.price.toLocaleString()}??;
+
+      // Description (multiline text)
+      document.getElementById('modalDescription').textContent = product.description;
+
+      // Engagement Stats
+      document.getElementById('modalWishCount').textContent = product.wishCount;
+      document.getElementById('modalChatCount').textContent = product.chatCount;
+      document.getElementById('modalViewCount').textContent = product.viewCount;
+
+      // Wishlist Heart state
+      const wishBtn = document.getElementById('modalWishBtn');
+      if (product.isWished) {
+        wishBtn.classList.add('active');
+      } else {
+        wishBtn.classList.remove('active');
+      }
+
+      // Show Modal Overlay
+      const modal = document.getElementById('detailModal');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Lock background scroll
+    }
+
+    /**
+     * closeDetailModal()
+     */
+    function closeDetailModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // Unlock background scroll
+    }
+
+    // Overlay click handling (close when background clicked)
+    function handleOverlayClick(event) {
+      if (event.target === document.getElementById('detailModal')) {
+        closeDetailModal();
+      }
+    }
+
+    // ESC key close
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+      }
+    });
+
+    // Wishlist Toggle
+    function toggleWishlist() {
+      if (!currentProduct) return;
+
+      currentProduct.isWished = !currentProduct.isWished;
+      const wishBtn = document.getElementById('modalWishBtn');
+
+      if (currentProduct.isWished) {
+        currentProduct.wishCount += 1;
+        wishBtn.classList.add('active');
+        showToast("?ㅿ툘 愿??紐⑸줉??異붽??섏뿀?듬땲??");
+      } else {
+        currentProduct.wishCount = Math.max(0, currentProduct.wishCount - 1);
+        wishBtn.classList.remove('active');
+        showToast("愿??紐⑸줉?먯꽌 ??젣?섏뿀?듬땲??");
+      }
+
+      document.getElementById('modalWishCount').textContent = currentProduct.wishCount;
+    }
+
+    // Start Chat Action
+    function handleStartChat() {
+      if (!currentProduct) return;
+      showToast(`?뮠 '${currentProduct.seller.name}'?섍낵??1:1 媛먯옄梨꾪똿諛⑹쑝濡??대룞?⑸땲??`);
+    }
+
+    // Toast Function
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Initial Render
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProductGrid();
+    });
+  </script>
+</body>
+</html>
