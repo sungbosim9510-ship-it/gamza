@@ -25,7 +25,7 @@ let products = [
     price: 580000,
     location: "서울시 마포구 연남동",
     time: "10분 전",
-    status: "판매중",
+    status: "예약중",
     image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=600&auto=format&fit=crop&q=80",
     description: "작년에 구매하고 집에서 인강용으로만 사용해서 상태 아주 깨끗합니다.\n기스나 흠집 전혀 없으며, 강화유리 필름 붙여져 있습니다.\n정품 박스 및 케이블 모두 포함입니다.",
     seller: {
@@ -61,7 +61,7 @@ let products = [
     price: 85000,
     location: "경기도 성남시 분당구 정자동",
     time: "2시간 전",
-    status: "판매중",
+    status: "예약중",
     image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&auto=format&fit=crop&q=80",
     description: "미국 직구로 구매했던 정품입니다. 한두 번 입고 보관 중입니다.\n오염이나 털 뭉침 없이 깨끗한 A급 상태입니다.\n택배 거래(3천원 추가)나 정자역 직거래 가능합니다.",
     seller: {
@@ -97,7 +97,7 @@ let products = [
     price: 240000,
     location: "서울시 종로구 대학로",
     time: "어제",
-    status: "판매중",
+    status: "예약중",
     image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&auto=format&fit=crop&q=80",
     description: "갑자기 일정이 생겨서 못 가게 되어 정가보다 저렴하게 팝니다.\n1층 8열 중앙 블록 연석입니다.\n현장 수령 또는 등기 발송 가능합니다.",
     seller: {
@@ -115,7 +115,7 @@ let products = [
     price: 340000,
     location: "인천시 남동구 구월동",
     time: "3일 전",
-    status: "판매중",
+    status: "예약중",
     image: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=600&auto=format&fit=crop&q=80",
     description: "액정 보호 필름 붙여져 있으며 잔상이나 쏠림 현상 전혀 없습니다.\n파우치 및 풀박스 세트입니다.\n직거래 구월동 로데오거리 희망합니다.",
     seller: {
@@ -124,6 +124,24 @@ let products = [
       profileImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       region: "인천 남동구",
       temp: "38.2℃ 🥔"
+    }
+  },
+  {
+    id: 47,
+    title: "원목 캣타워 대형 5단 (푹신한 하우스 & 쿠션 포함)",
+    category: "반려동물 용품",
+    price: 65000,
+    location: "서울시 마포구 망원동",
+    time: "1시간 전",
+    status: "예약중",
+    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=600&auto=format&fit=crop&q=80",
+    description: "아이들이 너무 잘 쓰던 튼튼한 원목 캣타워입니다.\n스크래쳐 삼나무 로프 상태 양호하며 소독해두었습니다.\n부피가 있어 직접 차로 모시러 오셔야 합니다.",
+    seller: {
+      id: "77777777-7777-7777-7777-777777777777",
+      nickname: "포테이토캣",
+      profileImg: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&auto=format&fit=crop&q=80",
+      region: "마포구 망원동",
+      temp: "39.5℃ 🥔"
     }
   }
 ];
@@ -146,11 +164,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // 헬퍼: 상태 문자열 정규화 (공백 제거 후 산출)
 function normalizeStatus(status) {
-  if (!status) return "판매중";
+  if (!status) return "예약중";
   const s = String(status).replace(/\s+/g, '');
   if (s === "거래완료") return "거래완료";
   if (s === "예약중") return "예약중";
-  return "판매중";
+  if (s === "판매중") return "예약중";
+  return "예약중";
 }
 
 // ==========================================
@@ -1099,7 +1118,7 @@ async function handleWriteSubmit(e) {
   const category = document.getElementById("writeCategory").value;
   const price = parseInt(document.getElementById("writePrice").value, 10);
   const location = document.getElementById("writeLocation").value.trim();
-  const status = document.querySelector('input[name="writeStatus"]:checked')?.value || "판매중";
+  const status = document.querySelector('input[name="writeStatus"]:checked')?.value || "예약중";
   const description = document.getElementById("writeDescription").value.trim();
   let imgUrl = document.getElementById("writeImgUrl").value.trim();
 
